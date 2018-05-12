@@ -10,7 +10,7 @@ public class UserDao {
     private static final UserDao INSTANCE = new UserDao();
 
     public User getDefaultName() {
-        return new User("Ivan");
+        return new User();
     }
 
     public static UserDao getInstance() {

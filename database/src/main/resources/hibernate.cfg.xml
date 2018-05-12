@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/autocomplex</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password">pass</property>
+    <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+    <mapping class="by.aex.entity.User"/>
+    <mapping class="by.aex.entity.Role"/>
+    <mapping class="by.aex.entity.Account"/>
+    <mapping class="by.aex.entity.Car"/>
+    <mapping class="by.aex.entity.Category"/>
+    <mapping class="by.aex.entity.Contact"/>
+    <mapping class="by.aex.entity.OrderProduct"/>
+    <mapping class="by.aex.entity.Order"/>
+    <mapping class="by.aex.entity.Product"/>
+    <mapping class="by.aex.entity.SearchHistory"/>
+    <mapping class="by.aex.entity.Wish"/>
+  </session-factory>
+</hibernate-configuration>
