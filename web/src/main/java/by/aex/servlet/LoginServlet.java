@@ -14,7 +14,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String defaultName = UserService.getInstance().getDefaultName().getName();
+        String defaultName = UserService.getInstance().getDefaultName().toString();
         req.setAttribute("defaultName", defaultName);
         getServletContext()
                 .getRequestDispatcher("/WEB-INF/jsp/login.jsp")
