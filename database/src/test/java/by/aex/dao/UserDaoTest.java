@@ -2,36 +2,20 @@ package by.aex.dao;
 
 import by.aex.entity.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.Serializable;
 
 import static org.junit.Assert.assertNotNull;
 
-public class UserDaoTest {
+public class UserDaoTest extends BaseTest {
 
     private static final User USER = new User("Ivan", "Ivanov", "email", "password", RoleDaoTest.getRole());
 
-    private static SessionFactory factory;
-
-    @BeforeClass
-    public static void load() {
-        factory = new Configuration().configure().buildSessionFactory();
-    }
-
-    @AfterClass
-    public static void after() {
-        factory.close();
-    }
-
     @Before
     public void clean() {
-        try (Session session = factory.openSession()) {
+        try (Session session = BaseTest.getFactory().openSession()) {
             session.beginTransaction();
             session.createQuery("DELETE FROM User ")
                     .executeUpdate();
@@ -42,7 +26,7 @@ public class UserDaoTest {
 
     @Test
     public void checkSaveUser() {
-        try (Session session = factory.openSession()) {
+        try (Session session = BaseTest.getFactory().openSession()) {
             Serializable userId = session.save(USER);
             assertNotNull("Id is null", userId);
         }
@@ -50,7 +34,7 @@ public class UserDaoTest {
 
     @Test
     public void checkFindUser() {
-        try (Session session = factory.openSession()) {
+        try (Session session = BaseTest.getFactory().openSession()) {
             session.beginTransaction();
             Serializable userId = session.save(USER);
             assertNotNull("Id is null", userId);

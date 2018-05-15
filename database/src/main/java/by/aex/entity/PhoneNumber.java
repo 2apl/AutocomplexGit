@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @NoArgsConstructor
@@ -15,6 +14,5 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PhoneNumber {
 
-    @Column(name = "phone_number")
     private String phoneNumber;
 }
