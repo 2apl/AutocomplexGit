@@ -19,10 +19,16 @@ import javax.persistence.Table;
 @Table(name = "account", schema = "online_shop")
 public class Account extends BaseEntity<Long> {
 
+    public static final double START_BALANCE = 0.0;
+
     @Column(name = "balance", nullable = false)
     private Double balance;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public static Account createNew(User user) {
+        return new Account(START_BALANCE, user);
+    }
 }

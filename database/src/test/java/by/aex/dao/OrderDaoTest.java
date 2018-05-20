@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 public class OrderDaoTest extends BaseTest {
 
     private static final Order ORDER = new Order(LocalDate.now(), LocalDate.now(), UserDaoTest.getUser(), null);
+    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
 
     @Before
     public void clean() {
@@ -43,6 +44,24 @@ public class OrderDaoTest extends BaseTest {
             assertNotNull("Entity is null", found);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkGetAllUsersOrders() {
+        OrderDao.getInstance().save(ORDER);
+        OrderDao.getInstance().getAllUsersOrders(UserDaoTest.getUser());
+    }
+
+    @Test
+    public void checkGetOrdersBeforeDate() {
+        OrderDao.getInstance().save(ORDER);
+        OrderDao.getInstance().getOrdersBeforeDate(LocalDate.now());
+    }
+
+    @Test
+    public void checkGetOrdersAfterDate() {
+        OrderDao.getInstance().save(ORDER);
+        OrderDao.getInstance().getOrdersAfterDate(LocalDate.now());
     }
 
     public static Order getOrder() {

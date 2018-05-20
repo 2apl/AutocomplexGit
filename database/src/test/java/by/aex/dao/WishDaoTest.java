@@ -11,7 +11,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class WishDaoTest extends BaseTest {
 
-    private static final Wish WISH = new Wish("OX100", "Knecht", "Фильтр", UserDaoTest.getUser(), 10);
+    private static final Wish WISH = new Wish("OC100", "Knecht", "Фильтр", UserDaoTest.getUser(), 10);
+    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
 
     @Before
     public void clean() {
@@ -42,5 +43,17 @@ public class WishDaoTest extends BaseTest {
             assertNotNull("Entity is null", found);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkFindByBrandAndArticle() {
+        WishDao.getInstance().save(WISH);
+        WishDao.getInstance().findByBrandAndArticle("Knecht", "OC100");
+    }
+
+    @Test
+    public void checkFindByDescription() {
+        WishDao.getInstance().save(WISH);
+        WishDao.getInstance().findByDescription("Фильтр");
     }
 }

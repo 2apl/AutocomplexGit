@@ -11,7 +11,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class SearchHistoryDaoTest extends BaseTest {
 
-    private static final SearchHistory SEARCH_HISTORY = new SearchHistory("OX100", "Knecht", "Фильтр", UserDaoTest.getUser());
+    private static final SearchHistory SEARCH_HISTORY = new SearchHistory("OC100", "Knecht", "Фильтр", UserDaoTest.getUser());
+    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
 
     @Before
     public void clean() {
@@ -42,5 +43,17 @@ public class SearchHistoryDaoTest extends BaseTest {
             assertNotNull("Entity is null", found);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkFindByBrandAndArticle() {
+        SearchHistoryDao.getInstance().save(SEARCH_HISTORY);
+        SearchHistoryDao.getInstance().findByBrandAndArticle("Knecht", "OC100");
+    }
+
+    @Test
+    public void checkFindByDescription() {
+        SearchHistoryDao.getInstance().save(SEARCH_HISTORY);
+        SearchHistoryDao.getInstance().findByDescription("Фильтр");
     }
 }

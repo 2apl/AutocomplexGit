@@ -46,6 +46,12 @@ public class RoleDaoTest extends BaseTest {
         }
     }
 
+    @Test
+    public void checkGetUserRole() {
+        RoleDao.getInstance().save(ROLE);
+        RoleDao.getInstance().getUserRole();
+    }
+
     public static Role getRole() {
         return ROLE;
     }

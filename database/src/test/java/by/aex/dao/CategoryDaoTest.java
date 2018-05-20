@@ -43,4 +43,10 @@ public class CategoryDaoTest extends BaseTest {
             session.getTransaction().commit();
         }
     }
+
+    @Test
+    public void checkFindByName() {
+        CategoryDao.getInstance().save(CATEGORY);
+        CategoryDao.getInstance().findByName(CATEGORY.getName());
+    }
 }

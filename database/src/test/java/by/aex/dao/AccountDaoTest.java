@@ -43,4 +43,9 @@ public class AccountDaoTest extends BaseTest {
             session.getTransaction().commit();
         }
     }
+
+    @Test
+    public void checkChangeOnNumber() {
+            AccountDao.getInstance().changeOnNumber(UserDaoTest.getUser(), 12.35);
+    }
 }

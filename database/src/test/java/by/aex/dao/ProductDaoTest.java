@@ -44,6 +44,24 @@ public class ProductDaoTest extends BaseTest {
         }
     }
 
+    @Test
+    public void checkSearchByArticle() {
+        ProductDao.getInstance().save(PRODUCT);
+        ProductDao.getInstance().searchByArticle("111");
+    }
+
+    @Test
+    public void checkSearchByArticleAndBrand() {
+        ProductDao.getInstance().save(PRODUCT);
+        ProductDao.getInstance().searchByArticleAndBrand("ATE", "111");
+    }
+
+    @Test
+    public void checkSearchByBrandOrArticleOrDescription() {
+        ProductDao.getInstance().save(PRODUCT);
+        ProductDao.getInstance().searchByBrandOrArticleOrDescription("ATE", "111", "Колодки", 1, 10);
+    }
+
     public static Product getProduct() {
         return PRODUCT;
     }

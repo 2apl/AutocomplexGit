@@ -1,6 +1,7 @@
 package by.aex.dao;
 
 import by.aex.entity.Car;
+import by.aex.entity.User;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 public class CarDaoTest extends BaseTest {
 
     private static final Car CAR = new Car("Audi", "A5", 2018, "VIN", UserDaoTest.getUser());
+    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
 
     @Before
     public void clean() {
@@ -42,5 +44,16 @@ public class CarDaoTest extends BaseTest {
             assertNotNull("Entity is null", found);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkFindByVin() {
+        CarDao.getInstance().save(CAR);
+        CarDao.getInstance().findByVin("VIN");
+    }
+
+    @Test
+    public void checkSave() {
+        CarDao.getInstance().save(CAR);
     }
 }

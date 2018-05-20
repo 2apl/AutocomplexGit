@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class UserDaoTest extends BaseTest {
 
-    private static final User USER = new User("Ivan", "Ivanov", "email", "password", RoleDaoTest.getRole());
+    private static final User USER = new User("Ivan", "Ivanov", "email", "password");
 
     @Before
     public void clean() {
@@ -44,6 +44,48 @@ public class UserDaoTest extends BaseTest {
             session.getTransaction().commit();
         }
     }
+
+    @Test
+    public void checkSave() {
+        UserDao.getInstance().save(USER);
+    }
+
+    @Test
+    public void checkUpdate() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().update(USER);
+    }
+
+    @Test
+    public void checkDelete() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().delete(USER);
+    }
+
+    @Test
+    public void checkFind() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().find(USER.getId());
+    }
+
+    @Test
+    public void checkFindAll() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().findAll();
+    }
+
+    @Test
+    public void checkFindByEmail() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().findByEmail("email");
+    }
+
+    @Test
+    public void checkFindByLastName() {
+        UserDao.getInstance().save(USER);
+        UserDao.getInstance().findByLastName("Ivanov");
+    }
+
 
     public static User getUser() {
         return USER;
