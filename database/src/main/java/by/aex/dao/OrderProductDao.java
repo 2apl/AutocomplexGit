@@ -1,14 +1,13 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Order;
+import by.aex.entity.Product;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderProductDao {
+import java.util.List;
 
-    private static final OrderProductDao INSTANCE = new OrderProductDao();
+public interface OrderProductDao {
 
-    public static OrderProductDao getInstance() {
-        return INSTANCE;
-    }
+    List<Order> getOrdersWithProduct(Product product);
+
+    List<Product> getProductsInOrder(Order order);
 }

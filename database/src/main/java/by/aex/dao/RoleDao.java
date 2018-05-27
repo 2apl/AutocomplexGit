@@ -1,14 +1,8 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Role;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoleDao {
+public interface RoleDao {
 
-    private static final RoleDao INSTANCE = new RoleDao();
-
-    public static RoleDao getInstance() {
-        return INSTANCE;
-    }
+    Role getUserRole();
 }

@@ -1,14 +1,12 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.SearchHistory;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SearchHistoryDao {
+import java.util.List;
 
-    private static final SearchHistoryDao INSTANCE = new SearchHistoryDao();
+public interface SearchHistoryDao {
 
-    public static SearchHistoryDao getInstance() {
-        return INSTANCE;
-    }
+    List<SearchHistory> findByBrandAndArticle(String brand, String article);
+
+    List<SearchHistory> findByDescription(String description);
 }

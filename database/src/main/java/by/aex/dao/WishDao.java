@@ -1,14 +1,12 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Wish;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class WishDao {
+import java.util.List;
 
-    private static final WishDao INSTANCE = new WishDao();
+public interface WishDao {
 
-    public static WishDao getInstance() {
-        return INSTANCE;
-    }
+    List<Wish> findByBrandAndArticle(String brand, String article);
+
+    List<Wish> findByDescription(String description);
 }

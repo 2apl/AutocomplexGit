@@ -1,14 +1,16 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Order;
+import by.aex.entity.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderDao {
+import java.time.LocalDate;
+import java.util.List;
 
-    private static final OrderDao INSTANCE = new OrderDao();
+public interface OrderDao {
 
-    public static OrderDao getInstance() {
-        return INSTANCE;
-    }
+    List<Order> getAllUsersOrders(User user);
+
+    List<Order> getOrdersBeforeDate(LocalDate date);
+
+    List<Order> getOrdersAfterDate(LocalDate date);
 }

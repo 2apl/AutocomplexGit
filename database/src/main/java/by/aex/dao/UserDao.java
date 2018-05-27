@@ -1,19 +1,14 @@
 package by.aex.dao;
 
 import by.aex.entity.User;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserDao {
+import java.util.List;
 
-    private static final UserDao INSTANCE = new UserDao();
+public interface UserDao {
 
-    public User getDefaultName() {
-        return new User();
-    }
+    List<User> findByEmail(String email);
 
-    public static UserDao getInstance() {
-        return INSTANCE;
-    }
+    List<User> findByLastName(String lastName);
+
+
 }

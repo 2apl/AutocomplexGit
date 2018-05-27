@@ -6,10 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class ProductDaoTest extends BaseTest {
+public class ProductDaoImplTest extends BaseTest {
 
     private static final Product PRODUCT = new Product("111", "ATE", "колодки", null, 122.20, null);
 
@@ -42,6 +43,33 @@ public class ProductDaoTest extends BaseTest {
             assertNotNull("Entity is null", found);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkSearchByArticle() {
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByArticle(PRODUCT.getArticle());
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
+    }
+
+    @Test
+    public void checkSearchByArticleAndBrand() {
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByArticleAndBrand(PRODUCT.getBrand(), PRODUCT.getArticle());
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
+    }
+
+    @Test
+    public void checkSearchByBrandOrArticleOrDescription() {
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByBrandOrArticleOrDescription(PRODUCT.getBrand(), PRODUCT.getArticle(), PRODUCT.getDescription(), 1, 10);
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
     }
 
     public static Product getProduct() {

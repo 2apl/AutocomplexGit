@@ -1,14 +1,14 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Product;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductDao {
+import java.util.List;
 
-    private static final ProductDao INSTANCE = new ProductDao();
+public interface ProductDao {
 
-    public static ProductDao getInstance() {
-        return INSTANCE;
-    }
+    List<Product> searchByArticle(String article);
+
+    List<Product> searchByArticleAndBrand(String brand, String article);
+
+    List<Product> searchByBrandOrArticleOrDescription(String brand, String article, String description, Integer pageNumber, Integer resultsOnPage);
 }

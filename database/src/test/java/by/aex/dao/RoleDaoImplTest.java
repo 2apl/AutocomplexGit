@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 import static org.junit.Assert.assertNotNull;
 
-public class RoleDaoTest extends BaseTest {
+public class RoleDaoImplTest extends BaseTest {
 
     private static final Role ROLE = new Role("user");
 
@@ -44,6 +44,15 @@ public class RoleDaoTest extends BaseTest {
             assertNotNull("Entity is null", role);
             session.getTransaction().commit();
         }
+    }
+
+    @Test
+    public void checkGetUserRole() {
+        Long save = RoleDaoImpl.getInstance().save(ROLE);
+        assertNotNull("Id is null", save);
+
+        Role userRole = RoleDaoImpl.getInstance().getUserRole();
+        assertNotNull("Entity is null", userRole);
     }
 
     public static Role getRole() {

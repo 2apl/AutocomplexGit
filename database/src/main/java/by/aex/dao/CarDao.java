@@ -1,14 +1,8 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Car;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CarDao {
+public interface CarDao {
 
-    private static final CarDao INSTANCE = new CarDao();
-
-    public static CarDao getInstance() {
-        return INSTANCE;
-    }
+    Car findByVin(String vin);
 }

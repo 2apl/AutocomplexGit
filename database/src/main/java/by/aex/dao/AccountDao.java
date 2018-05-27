@@ -1,14 +1,8 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountDao {
+public interface AccountDao {
 
-    private static final AccountDao INSTANCE = new AccountDao();
-
-    public static AccountDao getInstance() {
-        return INSTANCE;
-    }
+    void changeOnNumber(User user, Double number);
 }

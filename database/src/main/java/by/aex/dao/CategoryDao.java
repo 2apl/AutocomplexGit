@@ -1,14 +1,10 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Category;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CategoryDao {
+import java.util.List;
 
-    private static final CategoryDao INSTANCE = new CategoryDao();
+public interface CategoryDao {
 
-    public static CategoryDao getInstance() {
-        return INSTANCE;
-    }
+    List<Category> findByName(String name);
 }

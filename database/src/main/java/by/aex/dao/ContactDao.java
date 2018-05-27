@@ -1,14 +1,10 @@
 package by.aex.dao;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import by.aex.entity.Contact;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ContactDao {
+import java.util.List;
 
-    private static final ContactDao INSTANCE = new ContactDao();
+public interface ContactDao {
 
-    public static ContactDao getInstance() {
-        return INSTANCE;
-    }
+    List<Contact> findByPhoneNumber(String phoneNumber);
 }
