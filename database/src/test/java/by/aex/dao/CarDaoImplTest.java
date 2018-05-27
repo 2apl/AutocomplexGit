@@ -1,19 +1,19 @@
 package by.aex.dao;
 
 import by.aex.entity.Car;
-import by.aex.entity.User;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CarDaoTest extends BaseTest {
+public class CarDaoImplTest extends BaseTest {
 
-    private static final Car CAR = new Car("Audi", "A5", 2018, "VIN", UserDaoTest.getUser());
-    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
+    private static final Car CAR = new Car("Audi", "A5", 2018, "VIN", UserDaoImplTest.getUser());
+    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
 
     @Before
     public void clean() {
@@ -48,12 +48,11 @@ public class CarDaoTest extends BaseTest {
 
     @Test
     public void checkFindByVin() {
-        CarDao.getInstance().save(CAR);
-        CarDao.getInstance().findByVin("VIN");
-    }
+        Long save = CarDaoImpl.getInstance().save(CAR);
+        assertNotNull("Id is null", save);
 
-    @Test
-    public void checkSave() {
-        CarDao.getInstance().save(CAR);
+        Car car = CarDaoImpl.getInstance().findByVin(CAR.getVin());
+        assertNotNull("Entity is null", car);
+        assertEquals(CAR.getVin(), car.getVin());
     }
 }

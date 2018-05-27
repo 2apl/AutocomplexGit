@@ -7,13 +7,14 @@ import org.junit.Test;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class OrderDaoTest extends BaseTest {
+public class OrderDaoImplTest extends BaseTest {
 
-    private static final Order ORDER = new Order(LocalDate.now(), LocalDate.now(), UserDaoTest.getUser(), null);
-    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
+    private static final Order ORDER = new Order(LocalDate.now(), LocalDate.now(), UserDaoImplTest.getUser(), null);
+    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
 
     @Before
     public void clean() {
@@ -48,20 +49,29 @@ public class OrderDaoTest extends BaseTest {
 
     @Test
     public void checkGetAllUsersOrders() {
-        OrderDao.getInstance().save(ORDER);
-        OrderDao.getInstance().getAllUsersOrders(UserDaoTest.getUser());
+        Long save = OrderDaoImpl.getInstance().save(ORDER);
+        assertNotNull("Id is null", save);
+
+        List<Order> allUsersOrders = OrderDaoImpl.getInstance().getAllUsersOrders(UserDaoImplTest.getUser());
+        assertNotNull("Entity is null", allUsersOrders.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkGetOrdersBeforeDate() {
-        OrderDao.getInstance().save(ORDER);
-        OrderDao.getInstance().getOrdersBeforeDate(LocalDate.now());
+        Long save = OrderDaoImpl.getInstance().save(ORDER);
+        assertNotNull("Id is null", save);
+
+        List<Order> ordersBeforeDate = OrderDaoImpl.getInstance().getOrdersBeforeDate(LocalDate.now().plusDays(1L));
+        assertNotNull("Entity is null", ordersBeforeDate.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkGetOrdersAfterDate() {
-        OrderDao.getInstance().save(ORDER);
-        OrderDao.getInstance().getOrdersAfterDate(LocalDate.now());
+        Long save = OrderDaoImpl.getInstance().save(ORDER);
+        assertNotNull("Id is null", save);
+
+        List<Order> ordersAfterDate = OrderDaoImpl.getInstance().getOrdersAfterDate(LocalDate.now().minusDays(1L));
+        assertNotNull("Entity is null", ordersAfterDate.stream().findFirst().orElse(null));
     }
 
     public static Order getOrder() {

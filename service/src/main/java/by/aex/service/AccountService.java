@@ -1,8 +1,7 @@
 package by.aex.service;
 
-import by.aex.dao.AccountDao;
+import by.aex.dao.AccountDaoImpl;
 import by.aex.entity.Account;
-import by.aex.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +11,11 @@ public class AccountService {
     private static final AccountService INSTANCE = new AccountService();
 
     public void save(Account account) {
-        AccountDao.getInstance().save(account);
+        AccountDaoImpl.getInstance().save(account);
     }
 
     public void update(Account account) {
-        AccountDao.getInstance().update(account);
+        AccountDaoImpl.getInstance().update(account);
     }
 
 //    public Account getById(User user) {

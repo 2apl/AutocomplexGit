@@ -6,10 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class ProductDaoTest extends BaseTest {
+public class ProductDaoImplTest extends BaseTest {
 
     private static final Product PRODUCT = new Product("111", "ATE", "колодки", null, 122.20, null);
 
@@ -46,20 +47,29 @@ public class ProductDaoTest extends BaseTest {
 
     @Test
     public void checkSearchByArticle() {
-        ProductDao.getInstance().save(PRODUCT);
-        ProductDao.getInstance().searchByArticle("111");
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByArticle(PRODUCT.getArticle());
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkSearchByArticleAndBrand() {
-        ProductDao.getInstance().save(PRODUCT);
-        ProductDao.getInstance().searchByArticleAndBrand("ATE", "111");
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByArticleAndBrand(PRODUCT.getBrand(), PRODUCT.getArticle());
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkSearchByBrandOrArticleOrDescription() {
-        ProductDao.getInstance().save(PRODUCT);
-        ProductDao.getInstance().searchByBrandOrArticleOrDescription("ATE", "111", "Колодки", 1, 10);
+        Long save = ProductDaoImpl.getInstance().save(PRODUCT);
+        assertNotNull("Id is null", save);
+
+        List<Product> productList = ProductDaoImpl.getInstance().searchByBrandOrArticleOrDescription(PRODUCT.getBrand(), PRODUCT.getArticle(), PRODUCT.getDescription(), 1, 10);
+        assertNotNull("Entity is null", productList.stream().findFirst().orElse(null));
     }
 
     public static Product getProduct() {

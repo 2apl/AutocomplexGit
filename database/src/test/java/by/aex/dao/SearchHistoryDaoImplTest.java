@@ -6,13 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class SearchHistoryDaoTest extends BaseTest {
+public class SearchHistoryDaoImplTest extends BaseTest {
 
-    private static final SearchHistory SEARCH_HISTORY = new SearchHistory("OC100", "Knecht", "Фильтр", UserDaoTest.getUser());
-    private static final Long SAVED_USER = UserDao.getInstance().save(UserDaoTest.getUser());
+    private static final SearchHistory SEARCH_HISTORY = new SearchHistory("OC100", "Knecht", "Фильтр", UserDaoImplTest.getUser());
+    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
 
     @Before
     public void clean() {
@@ -47,13 +48,19 @@ public class SearchHistoryDaoTest extends BaseTest {
 
     @Test
     public void checkFindByBrandAndArticle() {
-        SearchHistoryDao.getInstance().save(SEARCH_HISTORY);
-        SearchHistoryDao.getInstance().findByBrandAndArticle("Knecht", "OC100");
+        Long save = SearchHistoryDaoImpl.getInstance().save(SEARCH_HISTORY);
+        assertNotNull("Id is null", save);
+
+        List<SearchHistory> byBrandAndArticle = SearchHistoryDaoImpl.getInstance().findByBrandAndArticle(SEARCH_HISTORY.getBrand(), SEARCH_HISTORY.getArticle());
+        assertNotNull("Entity is null", byBrandAndArticle.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkFindByDescription() {
-        SearchHistoryDao.getInstance().save(SEARCH_HISTORY);
-        SearchHistoryDao.getInstance().findByDescription("Фильтр");
+        Long save = SearchHistoryDaoImpl.getInstance().save(SEARCH_HISTORY);
+        assertNotNull("Id is null", save);
+
+        List<SearchHistory> byDescription = SearchHistoryDaoImpl.getInstance().findByDescription(SEARCH_HISTORY.getDescription());
+        assertNotNull("Entity is null", byDescription.stream().findFirst().orElse(null));
     }
 }

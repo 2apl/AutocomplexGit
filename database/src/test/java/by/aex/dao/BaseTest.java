@@ -15,8 +15,8 @@ public class BaseTest {
         factory = new Configuration().configure().buildSessionFactory();
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.save(RoleDaoTest.getRole());
-            session.save(UserDaoTest.getUser());
+            session.save(RoleDaoImplTest.getRole());
+            session.save(UserDaoImplTest.getUser());
             session.getTransaction().commit();
         }
     }

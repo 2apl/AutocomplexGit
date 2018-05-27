@@ -6,10 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CategoryDaoTest extends BaseTest {
+public class CategoryDaoImplTest extends BaseTest {
 
     private static final Category CATEGORY = new Category("Расходники", null);
 
@@ -46,7 +48,10 @@ public class CategoryDaoTest extends BaseTest {
 
     @Test
     public void checkFindByName() {
-        CategoryDao.getInstance().save(CATEGORY);
-        CategoryDao.getInstance().findByName(CATEGORY.getName());
+        Long save = CategoryDaoImpl.getInstance().save(CATEGORY);
+        assertNotNull("Id is null", save);
+
+        List<Category> byName = CategoryDaoImpl.getInstance().findByName(CATEGORY.getName());
+        assertNotNull("Entity is null", byName.stream().findFirst().orElse(null));
     }
 }

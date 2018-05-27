@@ -1,18 +1,20 @@
 package by.aex.dao;
 
 import by.aex.entity.Complex;
+import by.aex.entity.Order;
 import by.aex.entity.OrderProduct;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class OrderProductDaoTest extends BaseTest {
+public class OrderProductDaoImplImplTest extends BaseTest {
 
-    private static final OrderProduct ORDER_PRODUCT = new OrderProduct(new Complex(OrderDaoTest.getOrder(), ProductDaoTest.getProduct()), 2);
+    private static final OrderProduct ORDER_PRODUCT = new OrderProduct(new Complex(OrderDaoImplTest.getOrder(), ProductDaoImplTest.getProduct()), 2);
 
     @Before
     public void clean() {
@@ -24,8 +26,8 @@ public class OrderProductDaoTest extends BaseTest {
                     .executeUpdate();
             session.createQuery("DELETE FROM Product ")
                     .executeUpdate();
-            session.save(OrderDaoTest.getOrder());
-            session.save(ProductDaoTest.getProduct());
+            session.save(OrderDaoImplTest.getOrder());
+            session.save(ProductDaoImplTest.getProduct());
             session.getTransaction().commit();
         }
     }

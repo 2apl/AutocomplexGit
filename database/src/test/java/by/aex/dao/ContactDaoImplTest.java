@@ -7,12 +7,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class ContactDaoTest extends BaseTest {
+public class ContactDaoImplTest extends BaseTest {
 
-    private static final Contact CONTACT = new Contact(new PhoneNumber("+375297777777"), null, "Минск", "Пушкина", "38", UserDaoTest.getUser());
+    private static final Contact CONTACT = new Contact(new PhoneNumber("+375297777777"), null, "Минск", "Пушкина", "38", UserDaoImplTest.getUser());
+    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
 
     @Before
     public void clean() {
