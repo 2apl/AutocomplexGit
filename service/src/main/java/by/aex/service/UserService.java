@@ -1,33 +1,49 @@
 package by.aex.service;
 
-import by.aex.dao.UserDaoImpl;
+import by.aex.dao.UserDao;
 import by.aex.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
-    private UserDaoImpl userDaoImpl;
+    private UserDao userDao;
 
     @Autowired
-    public UserService(UserDaoImpl userDaoImpl) {
-        this.userDaoImpl = userDaoImpl;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public void save(User user) {
-        UserDaoImpl.getInstance().save(user);
+        userDao.save(user);
     }
 
     public void update(User user) {
-        UserDaoImpl.getInstance().update(user);
+        userDao.update(user);
     }
 
     public void delete(User user) {
-        UserDaoImpl.getInstance().delete(user);
+        userDao.delete(user);
     }
 
-//    public User findById(User user) {
-//        return (User) UserDao.getInstance().findById(user);
-//    }
+    public User find(Long id) {
+        return userDao.find(id);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+
+    public List<User> findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    public List<User> findByLastName(String lastName) {
+        return userDao.findByLastName(lastName);
+    }
 }

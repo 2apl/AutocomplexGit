@@ -1,11 +1,9 @@
 package by.aex.dao;
 
 import by.aex.entity.User;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,99 +15,90 @@ public class UserDaoImplTest extends BaseTest {
     private static final User USER = new User("Ivan", "Ivanov", "email", "password");
 
     @Before
-    public void clean() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            session.createQuery("DELETE FROM User ")
-                    .executeUpdate();
-            session.save(RoleDaoImplTest.getRole());
-            session.getTransaction().commit();
-        }
+    public void before() {
+        sessionFactory.getCurrentSession()
+                .createQuery("DELETE FROM User ")
+                .executeUpdate();
+        roleDao.save(RoleDaoImplTest.getRole());
     }
 
     @Test
     public void checkSaveUser() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            Serializable userId = session.save(USER);
-            assertNotNull("Id is null", userId);
-        }
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
     }
 
     @Test
     public void checkFindUser() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            Serializable userId = session.save(USER);
-            assertNotNull("Id is null", userId);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-            User user = session.find(User.class, userId);
-            assertNotNull("Entity is null", user);
-            session.getTransaction().commit();
-        }
+        User user = userDao.find(id);
+        assertNotNull("Entity is null", user);
     }
 
     @Test
     public void checkSave() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
     }
 
     @Test
     public void checkUpdate() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
         USER.setFirstName("Petr");
-        UserDaoImpl.getInstance().update(USER);
+        userDao.update(USER);
 
-        String firstName = UserDaoImpl.getInstance().find(save).getFirstName();
+        String firstName = userDao.find(id).getFirstName();
         assertEquals("Petr", firstName);
     }
 
     @Test
     public void checkDelete() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-        UserDaoImpl.getInstance().delete(USER);
+        userDao.delete(USER);
 
-        User user = UserDaoImpl.getInstance().find(save);
+        User user = userDao.find(id);
         assertNull("User not deleted", user);
     }
 
     @Test
     public void checkFind() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-        User user = UserDaoImpl.getInstance().find(save);
+        User user = userDao.find(id);
         assertNotNull("Entity is null", user);
     }
 
     @Test
     public void checkFindAll() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-        List<User> allUsers = UserDaoImpl.getInstance().findAll();
+        List<User> allUsers = userDao.findAll();
         assertNotNull("No found users", allUsers.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkFindByEmail() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-        List<User> byEmail = UserDaoImpl.getInstance().findByEmail(USER.getEmail());
+        List<User> byEmail = userDao.findByEmail(USER.getEmail());
         assertNotNull("No found users", byEmail.stream().findFirst().orElse(null));
     }
 
     @Test
     public void checkFindByLastName() {
-        Long save = UserDaoImpl.getInstance().save(USER);
-        assertNotNull("Id is null", save);
+        Long id = userDao.save(USER);
+        assertNotNull("Id is null", id);
 
-        List<User> byLastName = UserDaoImpl.getInstance().findByLastName(USER.getLastName());
+        List<User> byLastName = userDao.findByLastName(USER.getLastName());
         assertNotNull("No found users", byLastName.stream().findFirst().orElse(null));
     }
 

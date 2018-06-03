@@ -1,62 +1,60 @@
 package by.aex.dao;
 
 import by.aex.entity.Account;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class AccountDaoImplTest extends BaseTest {
 
+    @Autowired
+    private AccountDao accountDao;
+
     private static final Account ACCOUNT = new Account(0.0, UserDaoImplTest.getUser());
     private static final Double NUMBER = 12.2;
-    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
 
     @Before
-    public void clean() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            session.createQuery("DELETE FROM Account")
-                    .executeUpdate();
-            session.getTransaction().commit();
-        }
+    public void before() {
+        sessionFactory.getCurrentSession()
+                .createQuery("DELETE FROM Account")
+                .executeUpdate();
+        roleDao.save(RoleDaoImplTest.getRole());
+        userDao.save(UserDaoImplTest.getUser());
+    }
+
+    @Test
+    public void checkExisting() {
+        assertNotNull("Spring context is not loaded", accountDao);
     }
 
     @Test
     public void checkSaveAccount() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            Serializable save = session.save(ACCOUNT);
-            assertNotNull("Id is null", save);
-        }
+        Long id = accountDao.save(ACCOUNT);
+        assertNotNull("Id is null", id);
     }
 
     @Test
     public void checkFindAccount() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            Serializable saved = session.save(ACCOUNT);
-            assertNotNull("Id is Null", saved);
+        Long id = accountDao.save(ACCOUNT);
+        assertNotNull("Id is Null", id);
 
-            Account found = session.find(Account.class, saved);
-            assertNotNull("Entity is null", found);
-            session.getTransaction().commit();
-        }
+        Account account = accountDao.find(id);
+        assertNotNull("Entity is null", account);
     }
 
     @Test
     public void checkChangeOnNumber() {
-        Long save = AccountDaoImpl.getInstance().save(ACCOUNT);
-        assertNotNull("Id is null", save);
+        Long id = accountDao.save(ACCOUNT);
+        assertNotNull("Id is null", id);
 
-        AccountDaoImpl.getInstance().changeOnNumber(UserDaoImplTest.getUser(), NUMBER);
+        accountDao.changeOnNumber(UserDaoImplTest.getUser(), NUMBER);
+        sessionFactory.getCurrentSession().clear();
 
-        Account account = AccountDaoImpl.getInstance().find(save);
+        Account account = accountDao.find(id);
         assertNotNull("Entity is null", account);
         assertEquals(NUMBER, account.getBalance());
-
     }
 }

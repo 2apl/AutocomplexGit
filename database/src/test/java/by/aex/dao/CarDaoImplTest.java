@@ -1,11 +1,9 @@
 package by.aex.dao;
 
 import by.aex.entity.Car;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -13,45 +11,40 @@ import static org.junit.Assert.assertNotNull;
 public class CarDaoImplTest extends BaseTest {
 
     private static final Car CAR = new Car("Audi", "A5", 2018, "VIN", UserDaoImplTest.getUser());
-    private static final Long SAVED_USER = UserDaoImpl.getInstance().save(UserDaoImplTest.getUser());
+
+    @Autowired
+    private CarDao carDao;
 
     @Before
-    public void clean() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            session.createQuery("DELETE FROM Car")
-                    .executeUpdate();
-            session.getTransaction().commit();
-        }
+    public void before() {
+        sessionFactory.getCurrentSession()
+                .createQuery("DELETE FROM Car")
+                .executeUpdate();
+        roleDao.save(RoleDaoImplTest.getRole());
+        userDao.save(UserDaoImplTest.getUser());
     }
 
     @Test
     public void checkSaveCar() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            Serializable save = session.save(CAR);
-            assertNotNull("Id is null", save);
-        }
+        Long id = carDao.save(CAR);
+        assertNotNull("Id is null", id);
     }
 
     @Test
     public void checkFindCar() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            Serializable saved = session.save(CAR);
-            assertNotNull("Id is null", saved);
+        Long id = carDao.save(CAR);
+        assertNotNull("Id is null", id);
 
-            Car found = session.find(Car.class, saved);
-            assertNotNull("Entity is null", found);
-            session.getTransaction().commit();
-        }
+        Car car = carDao.find(id);
+        assertNotNull("Entity is null", car);
     }
 
     @Test
     public void checkFindByVin() {
-        Long save = CarDaoImpl.getInstance().save(CAR);
-        assertNotNull("Id is null", save);
+        Long id = carDao.save(CAR);
+        assertNotNull("Id is null", id);
 
-        Car car = CarDaoImpl.getInstance().findByVin(CAR.getVin());
+        Car car = carDao.findByVin(CAR.getVin());
         assertNotNull("Entity is null", car);
         assertEquals(CAR.getVin(), car.getVin());
     }

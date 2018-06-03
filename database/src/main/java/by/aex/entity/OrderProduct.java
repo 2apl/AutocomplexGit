@@ -21,6 +21,6 @@ public class OrderProduct {
     @EmbeddedId
     private Complex id;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Integer quantity;
 }

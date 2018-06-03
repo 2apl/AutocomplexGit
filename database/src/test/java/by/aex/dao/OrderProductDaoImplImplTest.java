@@ -1,14 +1,12 @@
 package by.aex.dao;
 
 import by.aex.entity.Complex;
-import by.aex.entity.Order;
 import by.aex.entity.OrderProduct;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -16,40 +14,44 @@ public class OrderProductDaoImplImplTest extends BaseTest {
 
     private static final OrderProduct ORDER_PRODUCT = new OrderProduct(new Complex(OrderDaoImplTest.getOrder(), ProductDaoImplTest.getProduct()), 2);
 
+    @Autowired
+    private OrderProductDao orderProductDao;
+
+    @Autowired
+    private OrderDao orderDao;
+
+    @Autowired
+    private ProductDao productDao;
+
     @Before
-    public void clean() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            session.createQuery("DELETE FROM OrderProduct")
+    public void before() {
+            sessionFactory.getCurrentSession()
+                    .createQuery("DELETE FROM OrderProduct")
                     .executeUpdate();
-            session.createQuery("DELETE FROM Order ")
+            sessionFactory.getCurrentSession()
+                    .createQuery("DELETE FROM Order ")
                     .executeUpdate();
-            session.createQuery("DELETE FROM Product ")
+            sessionFactory.getCurrentSession()
+                    .createQuery("DELETE FROM Product ")
                     .executeUpdate();
-            session.save(OrderDaoImplTest.getOrder());
-            session.save(ProductDaoImplTest.getProduct());
-            session.getTransaction().commit();
-        }
+            roleDao.save(RoleDaoImplTest.getRole());
+            userDao.save(UserDaoImplTest.getUser());
+            orderDao.save(OrderDaoImplTest.getOrder());
+            productDao.save(ProductDaoImplTest.getProduct());
     }
 
     @Test
     public void checkSaveOrderProduct() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            Serializable save = session.save(ORDER_PRODUCT);
-            assertNotNull("Id is null", save);
-        }
+        Serializable save = orderProductDao.save(ORDER_PRODUCT);
+        assertNotNull("Id is null", save);
     }
 
     @Test
     public void checkFindOrderProduct() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            Serializable saved = session.save(ORDER_PRODUCT);
-            assertNotNull("Id is null", saved);
+        Serializable id = orderProductDao.save(ORDER_PRODUCT);
+        assertNotNull("Id is null", id);
 
-            OrderProduct found = session.find(OrderProduct.class, saved);
-            assertNotNull("Entity is null", found);
-            session.getTransaction().commit();
-        }
+        OrderProduct orderProduct = orderProductDao.find(id);
+        assertNotNull("Entity is null", orderProduct);
     }
 }

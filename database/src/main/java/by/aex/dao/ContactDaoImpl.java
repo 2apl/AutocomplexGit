@@ -1,27 +1,16 @@
 package by.aex.dao;
 
 import by.aex.entity.Contact;
-import by.aex.util.SessionFactoryUtil;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Repository
 public class ContactDaoImpl extends BaseDao<Long, Contact> implements ContactDao {
 
-    private static final ContactDaoImpl INSTANCE = new ContactDaoImpl();
-
     public List<Contact> findByPhoneNumber(String phoneNumber) {
-        try (Session session = SessionFactoryUtil.getFactory().openSession()) {
-            return session.createQuery("select c from Contact c where c.phoneNumber = :phoneNumber", Contact.class)
-                    .setParameter("phoneNumber", phoneNumber)
-                    .getResultList();
-        }
-    }
-
-    public static ContactDaoImpl getInstance() {
-        return INSTANCE;
+        return sessionFactory.getCurrentSession().createQuery("select c from Contact c where c.phoneNumber = :phoneNumber", Contact.class)
+                .setParameter("phoneNumber", phoneNumber)
+                .getResultList();
     }
 }

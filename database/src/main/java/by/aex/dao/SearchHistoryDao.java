@@ -4,7 +4,7 @@ import by.aex.entity.SearchHistory;
 
 import java.util.List;
 
-public interface SearchHistoryDao {
+public interface SearchHistoryDao extends Dao<Long, SearchHistory> {
 
     List<SearchHistory> findByBrandAndArticle(String brand, String article);
 
