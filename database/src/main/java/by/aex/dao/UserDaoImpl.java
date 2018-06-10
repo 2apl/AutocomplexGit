@@ -8,10 +8,13 @@ import java.util.List;
 @Repository
 public class UserDaoImpl extends BaseDao<Long, User> implements UserDao {
 
-    public List<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         return sessionFactory.getCurrentSession().createQuery("select u from User u where u.email = :email", User.class)
                 .setParameter("email", email)
-                .list();
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     public List<User> findByLastName(String lastName) {

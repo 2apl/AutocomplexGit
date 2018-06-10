@@ -20,22 +20,22 @@ public class BaseServiceImpl <T extends BaseDao> implements BaseService {
     }
 
     @Override
-    public List findAll() {
-        return null;
+    public List<T> findAll() {
+        return baseDao.findAll();
     }
 
     @Override
     public BaseEntity find(Serializable id) {
-        return null;
+        return baseDao.find(id);
     }
 
     @Override
     public void update(BaseEntity object) {
-
+        baseDao.update(object);
     }
 
     @Override
     public void delete(BaseEntity object) {
-
+        baseDao.delete(object);
     }
 }

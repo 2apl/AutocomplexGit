@@ -7,7 +7,7 @@ public final class ContextUtil {
 
     private static final AnnotationConfigApplicationContext CONTEXT = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
 
-    public static <T> T getContext(Class<T> clazz) {
+    public static <T> T getBean(Class<T> clazz) {
         return CONTEXT.getBean(clazz);
     }
 }

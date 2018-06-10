@@ -14,7 +14,7 @@ public class CategoryDaoImplTest extends BaseTest {
     private static final Category CATEGORY = new Category("Расходники", null);
 
     @Autowired
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     @Before
     public void before() {
