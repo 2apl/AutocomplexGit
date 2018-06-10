@@ -5,6 +5,7 @@ import by.aex.entity.Role;
 import by.aex.entity.User;
 import by.aex.service.AccountService;
 import by.aex.service.UserService;
+import by.aex.util.ContextUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,10 +32,10 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         User user = new User(firstName, lastName, email, password);
-        UserService.getInstance().save(user);
+        UserService bean = ContextUtil.getContext(UserService.class);
+        bean.save(user);
 
         Account account = Account.createNew(user);
-        AccountService.getInstance().save(account);
 
         resp.sendRedirect("/registration");
     }

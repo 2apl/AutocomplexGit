@@ -4,7 +4,7 @@ import by.aex.entity.Product;
 
 import java.util.List;
 
-public interface ProductDao {
+public interface ProductDao  extends Dao<Long, Product> {
 
     List<Product> searchByArticle(String article);
 

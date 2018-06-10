@@ -1,11 +1,8 @@
 package by.aex.dao;
 
 import by.aex.entity.Role;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.Serializable;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -14,44 +11,33 @@ public class RoleDaoImplTest extends BaseTest {
     private static final Role ROLE = new Role("user");
 
     @Before
-    public void clean() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            session.createQuery("DELETE FROM User ")
-                    .executeUpdate();
-            session.createQuery("DELETE FROM Role")
-                    .executeUpdate();
-            session.getTransaction().commit();
-        }
+    public void before() {
+        sessionFactory.getCurrentSession()
+                .createQuery("DELETE FROM Role")
+                .executeUpdate();
     }
 
     @Test
     public void checkSaveRole() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            Serializable savedRole = session.save(ROLE);
-            assertNotNull("Id is null", savedRole);
-        }
+        Long id = roleDao.save(ROLE);
+        assertNotNull("Id is null", id);
     }
 
     @Test
     public void checkFindRole() {
-        try (Session session = BaseTest.getFactory().openSession()) {
-            session.beginTransaction();
-            Serializable savedRole = session.save(ROLE);
-            assertNotNull("Id is null", savedRole);
+        Long id = roleDao.save(ROLE);
+        assertNotNull("Id is null", id);
 
-            Role role = session.find(Role.class, savedRole);
-            assertNotNull("Entity is null", role);
-            session.getTransaction().commit();
-        }
+        Role role = roleDao.find(id);
+        assertNotNull("Entity is null", role);
     }
 
     @Test
     public void checkGetUserRole() {
-        Long save = RoleDaoImpl.getInstance().save(ROLE);
-        assertNotNull("Id is null", save);
+        Long id = roleDao.save(ROLE);
+        assertNotNull("Id is null", id);
 
-        Role userRole = RoleDaoImpl.getInstance().getUserRole();
+        Role userRole = roleDao.getUserRole();
         assertNotNull("Entity is null", userRole);
     }
 

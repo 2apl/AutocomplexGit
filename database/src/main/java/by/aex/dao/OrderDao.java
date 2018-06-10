@@ -6,7 +6,7 @@ import by.aex.entity.User;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OrderDao {
+public interface OrderDao extends Dao<Long, Order> {
 
     List<Order> getAllUsersOrders(User user);
 
