@@ -89,8 +89,8 @@ public class UserDaoImplTest extends BaseTest {
         Long id = userDao.save(USER);
         assertNotNull("Id is null", id);
 
-        List<User> byEmail = userDao.findByEmail(USER.getEmail());
-        assertNotNull("No found users", byEmail.stream().findFirst().orElse(null));
+        User byEmail = userDao.findByEmail(USER.getEmail());
+        assertNotNull("User does not exist", byEmail);
     }
 
     @Test
